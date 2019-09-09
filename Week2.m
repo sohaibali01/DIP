@@ -4,7 +4,7 @@ close all
 
 %% sampling 
 
-x=-pi:pi/20:2*pi;
+x=-pi:pi/10:2*pi;
 y=sin(x);
 
 figure;
@@ -17,21 +17,40 @@ title(' y = sin(x), sampling period of pi/10');
 
 %% quantization
 figure;
-plot(x,y);
+stem(x,y);
 hold on;
-L = multithresh(y,14);
+plot(x,y);
+% L = multithresh(y,4);
 
-% L=[-0.75, -0.25, 0.25, 0.75];
+L=[-0.75, -0.25, 0.25, 0.75];
+y_hat=y;
 for i=1:length(L)-1
-    y(y>L(i)&y<=L(i+1))=L(i);
+    y_hat(y_hat>L(i)&y_hat<=L(i+1))=L(i);
 end
-y(y<L(1))=L(1);
-y(y>L(end))=L(end);
-
-stem(x,y)
+y_hat(y_hat<L(1))=L(1);
+y_hat(y_hat>L(end))=L(end);
+stem(x,y_hat)
 xlabel('x');
 ylabel('y');
-title(' y = sin(x), sampling period of pi/20, quantization of 14 levels');
+title(' MSE = 0.0177');
+MSE1=(1/length(y))./(sum((y_hat-y).^2));
+
+L = multithresh(y,4);
+y_hat=y;
+for i=1:length(L)-1
+    y_hat(y_hat>L(i)&y_hat<=L(i+1))=L(i);
+end
+y_hat(y_hat<L(1))=L(1);
+y_hat(y_hat>L(end))=L(end);
+figure;
+stem(x,y);
+hold on;
+plot(x,y);
+stem(x,y_hat)
+xlabel('x');
+ylabel('y');
+title(' MSE = 0.0140');
+MSE2=(1/length(y))./(sum((y_hat-y).^2));
 
 %% image sampling
 
