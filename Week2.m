@@ -32,8 +32,8 @@ y_hat(y_hat>L(end))=L(end);
 stem(x,y_hat)
 xlabel('x');
 ylabel('y');
-title(' MSE = 0.0177');
-MSE1=(1/length(y))./(sum((y_hat-y).^2));
+title(' MSE = 0.0587');
+MSE1=(1/length(y)).*(sum((y_hat-y).^2));
 
 L = multithresh(y,4);
 y_hat=y;
@@ -49,8 +49,8 @@ plot(x,y);
 stem(x,y_hat)
 xlabel('x');
 ylabel('y');
-title(' MSE = 0.0140');
-MSE2=(1/length(y))./(sum((y_hat-y).^2));
+title(' MSE = 0.0744');
+MSE2=(1/length(y)).*(sum((y_hat-y).^2));
 
 %% image sampling
 
