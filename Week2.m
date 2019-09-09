@@ -24,23 +24,27 @@ plot(x,y);
 
 L=[-0.75, -0.25, 0.25, 0.75];
 y_hat=y;
-for i=1:length(L)-1
-    y_hat(y_hat>L(i)&y_hat<=L(i+1))=L(i);
-end
 y_hat(y_hat<L(1))=L(1);
+for i=1:length(L)-1
+    avg=0.5 * (L(i) + L(i+1));
+    y_hat(y_hat>L(i)&y_hat<=avg)=L(i);
+    y_hat(y_hat>avg&y_hat<=L(i+1))=L(i+1);
+end
 y_hat(y_hat>L(end))=L(end);
 stem(x,y_hat)
 xlabel('x');
 ylabel('y');
-title(' MSE = 0.0587');
+title(' MSE = 0.0284');
 MSE1=(1/length(y)).*(sum((y_hat-y).^2));
 
 L = multithresh(y,4);
 y_hat=y;
-for i=1:length(L)-1
-    y_hat(y_hat>L(i)&y_hat<=L(i+1))=L(i);
-end
 y_hat(y_hat<L(1))=L(1);
+for i=1:length(L)-1
+    avg=0.5 * (L(i) + L(i+1));
+    y_hat(y_hat>L(i)&y_hat<=avg)=L(i);
+    y_hat(y_hat>avg&y_hat<=L(i+1))=L(i+1);
+end
 y_hat(y_hat>L(end))=L(end);
 figure;
 stem(x,y);
@@ -49,7 +53,7 @@ plot(x,y);
 stem(x,y_hat)
 xlabel('x');
 ylabel('y');
-title(' MSE = 0.0744');
+title(' MSE = 0.0553');
 MSE2=(1/length(y)).*(sum((y_hat-y).^2));
 
 %% image sampling
